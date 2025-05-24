@@ -1,0 +1,54 @@
+{% extends "movies/base.html" %}
+
+{% block title %}{{ movie.primary_title }}{% endblock %}
+
+{% block content %}
+    <div class="movie-detail">
+        <h2>{{ movie.primary_title }}</h2>
+        <p><strong>Original Title:</strong> {{ movie.original_title }}</p>
+        <p><strong>Type:</strong> {{ movie.title_type }}</p>
+        <p><strong>Year:</strong> {{ movie.start_year|default:'N/A' }} {% if movie.end_year %}- {{ movie.end_year }}{% endif %}</p>
+        <p><strong>Runtime:</strong> {{ movie.runtime_minutes|default:'N/A' }} minutes</p>
+        <p><strong>Genres:</strong> {{ movie.genres|default:'N/A' }}</p>
+        <p><strong>Adult Film:</strong> {% if movie.is_adult %}Yes{% else %}No{% endif %}</p>
+
+        {% if rating %}
+            <div class="info-section">
+                <h3>Rating</h3>
+                <p><strong>Average Rating:</strong> {{ rating.average_rating|default:'N/A' }}/10</p>
+                <p><strong>Number of Votes:</strong> {{ rating.num_votes|default:'0' }}</p>
+            </div>
+        {% else %}
+            <p>No rating information available.</p>
+        {% endif %}
+
+        {% if directors %}
+            <div class="info-section">
+                <h3>Directors</h3>
+                <ul>
+                    {% for principal in directors %}
+                        <li>{{ principal.person.primary_name }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        {% if actors %}
+            <div class="info-section">
+                <h3>Main Actors</h3>
+                <ul>
+                    {% for principal in actors %}
+                        <li>
+                            {{ principal.person.primary_name }}
+                            {% if principal.characters %}
+                                <span style="color: #555;"> as {{ principal.characters|join:", " }}</span>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        
+        <p><a href="{% url 'movies:search_movies' %}">&laquo; Back to Search</a></p>
+    </div>
+{% endblock %}

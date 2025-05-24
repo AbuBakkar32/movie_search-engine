@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}IMDb Clone{% endblock %}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; color: #333; }
+        .container { width: 80%; margin: auto; overflow: hidden; padding: 20px; background-color: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        header { background: #333; color: #fff; padding: 1rem 0; text-align: center; }
+        header h1 { margin: 0; }
+        nav ul { padding: 0; list-style: none; text-align: center; }
+        nav ul li { display: inline; margin-right: 20px; }
+        nav a { color: #fff; text-decoration: none; }
+        .search-bar { margin: 20px 0; text-align: center; }
+        .search-bar input[type="text"] { padding: 10px; width: 60%; border-radius: 5px; border: 1px solid #ddd;}
+        .search-bar button { padding: 10px 15px; background: #5cb85c; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .movie-list { list-style: none; padding: 0; }
+        .movie-list li { background: #eee; padding: 10px; margin-bottom: 10px; border-radius: 5px; }
+        .movie-list li a { text-decoration: none; color: #337ab7; font-weight: bold; }
+        .movie-detail h2 { color: #333; }
+        .movie-detail p { line-height: 1.6; }
+        .movie-detail strong { color: #555; }
+        .info-section { margin-bottom: 15px; }
+        .info-section h3 { border-bottom: 1px solid #eee; padding-bottom: 5px; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><a href="{% url 'movies:search_movies' %}" style="color: #fff; text-decoration:none;">Movie Database</a></h1>
+    </header>
+    <div class="search-bar">
+        <form action="{% url 'movies:search_movies' %}" method="get">
+            <input type="text" name="q" placeholder="Search for a movie..." value="{{ request.GET.q }}">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

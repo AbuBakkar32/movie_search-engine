@@ -1,0 +1,33 @@
+{% extends "movies/base.html" %}
+
+{% block title %}Search Results for "{{ query }}"{% endblock %}
+
+{% block content %}
+    <h2>Search Results {% if query %}for "{{ query }}"{% endif %}</h2>
+
+    {% if movies %}
+        <ul class="movie-list">
+            {% for movie in movies %}
+                <li>
+                    <a href="{% url 'movies:movie_detail' movie.tconst %}">
+                        {{ movie.primary_title }} ({{ movie.start_year|default:'N/A' }})
+                    </a>
+                    <p>
+                        Runtime: {{ movie.runtime_minutes|default:'N/A' }} min | 
+                        Genres: {{ movie.genres|default:'N/A' }} <br>
+                        {% if movie.rating_info %}
+                            Rating: {{ movie.rating_info.average_rating|default:'N/A' }}/10 
+                            ({{ movie.rating_info.num_votes|default:'0' }} votes)
+                        {% else %}
+                            Rating: N/A
+                        {% endif %}
+                    </p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% elif query %}
+        <p>No movies found matching your query.</p>
+    {% else %}
+        <p>Please enter a search term to find movies.</p>
+    {% endif %}
+{% endblock %}
